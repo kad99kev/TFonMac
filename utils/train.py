@@ -102,4 +102,4 @@ def train():
             validation_data=test_batches,
             callbacks=[wandb.keras.WandbCallback(save_model=False)],
         )
-        shutil.rmtree(os.path.dirname(run.config.cache))
+        shutil.rmtree(os.path.dirname(cache))
