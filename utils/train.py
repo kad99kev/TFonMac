@@ -1,6 +1,8 @@
 import os
 import shutil
 import tempfile
+from turtle import st
+from click import style
 import wandb
 import tensorflow as tf
 import tensorflow_datasets as tfds
@@ -8,6 +10,9 @@ from dataclasses import asdict
 from .preprocess import prepare_dataset
 from utils import info
 from config import cfg
+from rich.console import Console
+
+console = Console()
 
 
 def train():
@@ -15,7 +20,6 @@ def train():
     Training the model on the given dataset with WandB.
     """
     hardware = info.hardware()
-    print(f"Using: {hardware}")
 
     train_dataset = tfds.load(name=cfg.dataset, as_supervised=True, split="train")
     test_dataset = tfds.load(name=cfg.dataset, as_supervised=True, split="test")
@@ -23,6 +27,7 @@ def train():
     wandb_config = asdict(cfg)
     wandb_config["train_size"] = len(train_dataset)
     wandb_config["test_size"] = len(test_dataset)
+    wandb_config["hardware"] = hardware
 
     with wandb.init(project="m1-benchmark", config=wandb_config) as run:
         cache = os.path.join(
@@ -34,7 +39,9 @@ def train():
                 run.config.image_size,
                 run.config.image_size,
                 run.config.image_channels,
-            )
+            ),
+            include_top=False,
+            weights="imagenet",
         )
         base_model.trainable = run.config.trainable
 
@@ -64,17 +71,25 @@ def train():
                 "trainable_params": info.trainable_params(model),
             }
         )
-        print(f"Model {run.config.model}:")
-        print(f"Trainable Parameters: {run.config.trainable_params}")
-        print(f"Total Parameters: {run.config.total_params}")
-        print(f"Dataset: {run.config.dataset}")
-        print(f"Training Size: {run.config.train_size}")
-        print(f"Test Size: {run.config.test_size}")
-        print(
-            f"Image Size: {(run.config.image_size, run.config.image_size, run.config.image_channels)}"
+
+        console.print(f"Using: {hardware}", style="bright_magenta")
+        console.print(f"Model: {run.config.model}", style="bright_yellow")
+        console.print(
+            f"Trainable Parameters: {run.config.trainable_params}",
+            style="deep_sky_blue2",
+        )
+        console.print(
+            f"Total Parameters: {run.config.total_params}", style="deep_sky_blue1"
+        )
+        console.print(f"Dataset: {run.config.dataset}", style="spring_green2")
+        console.print(f"Training Size: {run.config.train_size}", style="spring_green1")
+        console.print(f"Test Size: {run.config.test_size}", style="medium_spring_green")
+        console.print(
+            f"Image Size: {(run.config.image_size, run.config.image_size, run.config.image_channels)}",
+            style="pink1",
         )
 
-        print("Starting Training...")
+        console.log("Starting Training...", style="bright_red")
         train_batches = prepare_dataset(
             train_dataset, batch_size=run.config.batch_size, cache=cache
         )
