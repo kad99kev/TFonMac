@@ -17,3 +17,4 @@ References:
 1. [How To Install TensorFlow on M1 Mac (The Easy Way)](https://caffeinedev.medium.com/how-to-install-tensorflow-on-m1-mac-8e9b91d93706)
 2. [Can Apple's M1 help you train models faster & cheaper than NVIDIA's V100?](https://wandb.ai/vanpelt/m1-benchmark/reports/Can-Apple-s-M1-help-you-train-models-faster-cheaper-than-NVIDIA-s-V100---VmlldzozNTkyMzg)
 3. [Getting Started with tensorflow-metal PluggableDevice](https://developer.apple.com/metal/tensorflow-plugin/)
+4. [A useful thread on stackoverflow](https://stackoverflow.com/questions/67167886/make-tensorflow-use-the-gpu-on-an-arm-mac)
