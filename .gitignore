@@ -130,3 +130,7 @@ dmypy.json
 
 # For WandB
 wandb/
+
+# For testing
+test.py
+notebook.ipynb
