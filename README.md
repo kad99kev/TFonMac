@@ -2,6 +2,8 @@
 
 [![Visualize in WandB](https://raw.githubusercontent.com/wandb/assets/main/wandb-github-badge-28.svg)](https://wandb.ai/kad99kev/m1-benchmark)
 
+My article for this repository can be found [here](https://kad99kev.github.io/training-on-the-m1).
+
 ---
 
 **Trying to get Tensorflow working on Macs with M1 chip.**
